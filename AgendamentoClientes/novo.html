@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -7,9 +8,35 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
 </head>
-<body>
-    <h1>NOVO</h1>
-    
-    <script src="app.js" type="module"></script>
+
+<body id="novo">
+    <div class="elementosForm">
+        <div class="campoForm">
+            <label>ID</label>
+            <input type="text" name="f_id" id="f_id">
+        </div>
+        <div class="campoForm">
+            <label>Nome</label>
+            <input type="text" name="f_nome" id="f_nome">
+        </div>
+        <div class="campoForm">
+            <label>Celular</label>
+            <input type="text" name="f_celular" id="f_celular">
+        </div>
+        <div class="campoForm">
+            <label>E-mail</label>
+            <input type="text" name="f_email" id="f_email">
+        </div>
+        <div class="campoForm">
+            <label>Data Nascimento</label>
+            <input type="text" name="f_dataNasc" id="f_dataNasc">
+        </div>
+    </div>
+    <div class="botoesForm">
+        <button class="btn_geral">Gravar</button>
+        <button class="btn_geral">Cancelar</button>
+    </div>
+    <script src="novo.js" type="module"></script>
 </body>
+
 </html>
