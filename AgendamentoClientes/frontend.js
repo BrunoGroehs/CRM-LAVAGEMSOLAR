@@ -12,7 +12,7 @@ btn_home.addEventListener("click", (evt) => {
     abrirPagina(evt.target,"./home.html");
 })
 btn_pesquisar.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./pesquisar.html");
+    abrirPagina(evt.target,"./clientList.html");
 
 })
 btn_novo.addEventListener("click", (evt) => {

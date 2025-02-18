@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Agenda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+</head>
+<body>
+    <div id="filtros">
+        <button class="filtro-btn" data-filtro="prioridade">Ordem de Prioridade</button>
+        <button class="filtro-btn" data-filtro="recentes">Recém Adicionados</button>
+        <button class="filtro-btn" data-filtro="valor">Valor</button>
+        <button class="filtro-btn" data-filtro="limpeza">Efetuada a Limpeza</button>
+    </div>
+    <h1>Pesquisar Clientes</h1>
+    <input type="text" id="pesquisa" placeholder="Digite um nome..." />
+    <button type="button" id="btn_pesquisar">Pesquisar</button>
+
+    <ul id="listaClientes"></ul>
+
+    <script src="clientList.js" type="module"></script>
+</body>
+</html>

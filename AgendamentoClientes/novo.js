@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnGravar.addEventListener("click", async () => {
         const cliente = {
-            // id: document.getElementById("f_id").value.trim(),
             nome: document.getElementById("f_nome").value.trim(),
             celular: document.getElementById("f_celular").value.trim(),
             email: document.getElementById("f_email").value.trim(),
@@ -11,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         // Validação básica
-        if (!cliente.nome || !cliente.celular || !cliente.email) {
+        if (!cliente.nome || !cliente.celular || !cliente.email || !cliente.dataNasc) {
             alert("Preencha todos os campos obrigatórios!");
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:3000/contatos", {
+            const response = await fetch("http://localhost:3000/clientes", { // Corrigido para /clientes
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
