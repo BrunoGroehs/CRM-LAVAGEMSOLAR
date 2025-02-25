@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Cliente</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { margin-top: 0; }
+        p { margin: 5px 0; }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById("nome").textContent = params.get("nome");
+            document.getElementById("id_cliente").textContent = params.get("id_cliente");
+            document.getElementById("telefone").textContent = params.get("telefone");
+            document.getElementById("valor_servico").textContent = params.get("valor_servico");
+        });
+    </script>
+</head>
+<body>
+    <h2>Detalhes do Cliente</h2>
+    <p><strong>Nome:</strong> <span id="nome"></span></p>
+    <p><strong>ID:</strong> <span id="id_cliente"></span></p>
+    <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+    <p><strong>Valor do Serviço:</strong> <span id="valor_servico"></span></p>
+    <button onclick="window.history.back()">Voltar</button>
+</body>
+</html>

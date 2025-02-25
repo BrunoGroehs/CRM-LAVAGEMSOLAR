@@ -8,24 +8,12 @@ const btn_sobre = document.querySelector("#btn_sobre");
 const principal = document.querySelector("#principal");
 
 
-btn_home.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./home.html");
-})
-btn_pesquisar.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./clientList.html");
 
-})
-btn_novo.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./novo.html");
-
-})
-btn_gestao.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./gestao.html");
-
-})
-btn_sobre.addEventListener("click", (evt) => {
-    abrirPagina(evt.target,"./sobre.html");
-})
+// Definir a aba inicial como Home
+window.onload = () => {
+    btn_clientList.classList.add("abaSelecionada"); // Deixa a aba Home selecionada
+    abrirPagina(btn_clientList, "./clientList.html"); // Abre a página Home
+};
 
 const abrirPagina = (el, url) => {
     const abas = [...document.querySelectorAll(".aba")];
@@ -35,3 +23,21 @@ const abrirPagina = (el, url) => {
     el.classList.add("abaSelecionada");
     window.open(url, "if_principal");
 }
+        btn_home.addEventListener("click", (evt) => {
+            abrirPagina(evt.target,"./home.html");
+        })
+        btn_pesquisar.addEventListener("click", (evt) => {
+            abrirPagina(evt.target,"./clientList.html");
+        
+        })
+        btn_novo.addEventListener("click", (evt) => {
+            abrirPagina(evt.target,"./novo.html");
+        
+        })
+        btn_gestao.addEventListener("click", (evt) => {
+            abrirPagina(evt.target,"./gestao.html");
+        
+        })
+        btn_sobre.addEventListener("click", (evt) => {
+            abrirPagina(evt.target,"./sobre.html");
+        })
