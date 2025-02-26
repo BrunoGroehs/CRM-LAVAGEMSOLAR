@@ -11,8 +11,8 @@ const principal = document.querySelector("#principal");
 
 // Definir a aba inicial como Home
 window.onload = () => {
-    btn_clientList.classList.add("abaSelecionada"); // Deixa a aba Home selecionada
-    abrirPagina(btn_clientList, "./clientList.html"); // Abre a página Home
+    btn_pesquisar.classList.add("abaSelecionada"); // Deixa a aba Home selecionada
+    abrirPagina(btn_pesquisar, "./clientList.html"); // Abre a página Home
 };
 
 const abrirPagina = (el, url) => {

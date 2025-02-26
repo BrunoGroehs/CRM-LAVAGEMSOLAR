@@ -5,16 +5,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const botoesFiltro = document.querySelectorAll(".filtro-btn");
     let clientes = [];
 
-    const iconesStatus = {
-        "pendente": "src/icons/aguardandoAgendamento.png",//aqui nao esta funcionando
-        "confirmado": "src/icons/limpezaEfetuada.png",
-        "concluido": "src/icons/reagendado.png",
-        "cancelado": "src/icons/clienteNaoQuer.png",
-        "aguardando agendamento": "src/icons/aguardando-agendamento.png",
-        "cliente nao quer": "src/icons/cliente-nao-quer.png",
-        "falou que quer fazer mais pra frente": "src/icons/mais-pra-frente.png",
-        "nunca foi chamado": "src/icons/nunca-chamado.png",
-        "efetuada a limpeza": "src/icons/limpezaEfetuada.png",
+    const iconesStatus = {//PRECISO ARRUMAR AQUI
+        "1": "src/icons/aguardandoAgendamento.png",
+        "2": "src/icons/clienteNaoQuer.png",
+        "3": "src/icons/reagendado.png",
+        "4": "src/icons/aguardandoAgendamento.png",
+        "5": "src/icons/limpezaEfetuada.png",
     };
 
     async function carregarClientes() {
@@ -33,12 +29,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         tbody.innerHTML = "";
 
         clientesFiltrados.forEach(cliente => {
-            const tr = document.createElement("tr");
-            const statusLower = cliente.status_servico.toLowerCase();
-            const icone = iconesStatus[statusLower]
-                ? `<img src="${iconesStatus[statusLower]}" alt="${cliente.status_servico}" width="50">` //aqui preciso configurar no css
-                : cliente.status_servico; // Se não houver ícone, exibe o próprio texto do status
+            const statusServico = cliente.status_servico && cliente.status_servico.descricao
+                ? cliente.status_servico.descricao.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                : "";
 
+            const statusId = cliente.status_servico_id ? String(cliente.status_servico_id) : "";
+
+            const icone = iconesStatus[statusServico] || iconesStatus[statusId]
+                ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
+                : "Sem status";
+
+            const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${cliente.nome}</td>
                 <td>${cliente.endereco}</td>
@@ -47,14 +48,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.valor_servico}</td>
                 <td>${cliente.valor_marcado}</td>
                 <td>${cliente.proxima_data_agendamento}</td>
-                <td>${"TESDT"}</td>
+                <td>${cliente.data_marcada}</td>
                 <td>${icone}</td>
             `;
 
-            // Evento de clique na linha
             tr.addEventListener("click", (event) => {
                 const selection = window.getSelection();
-                // Só abre a página se nenhum texto estiver selecionado
                 if (selection.toString().length === 0) {
                     abrirNovaPagina(cliente);
                 }
@@ -62,7 +61,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             tbody.appendChild(tr);
         });
-
     }
 
     function abrirNovaPagina(cliente) {
