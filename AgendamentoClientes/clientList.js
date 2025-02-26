@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const botoesFiltro = document.querySelectorAll(".filtro-btn");
     let clientes = [];
 
-    const iconesStatus = {//PRECISO ARRUMAR AQUI
+    const iconesStatus = {
         "1": "src/icons/aguardandoAgendamento.png",
         "2": "src/icons/clienteNaoQuer.png",
         "3": "src/icons/reagendado.png",
@@ -29,18 +29,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         tbody.innerHTML = "";
 
         clientesFiltrados.forEach(cliente => {
+            // Trata o status para buscar o ícone correspondente
             const statusServico = cliente.status_servico && cliente.status_servico.descricao
                 ? cliente.status_servico.descricao.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 : "";
-
             const statusId = cliente.status_servico_id ? String(cliente.status_servico_id) : "";
-
-            const icone = iconesStatus[statusServico] || iconesStatus[statusId]
+            const iconeStatus = (iconesStatus[statusServico] || iconesStatus[statusId])
                 ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
                 : "Sem status";
 
+            // Cria o link do WhatsApp com o número do cliente e a mensagem de teste
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone}&text=mensagem%20de%20teste`;
+            // A função onclick="event.stopPropagation()" impede que o clique no ícone dispare o evento do row
+            const whatsappIcon = `<a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()"><img src="src/icons/wpp.png" alt="WhatsApp" width="50"></a>`;
+
+            // Cria a linha da tabela com a nova coluna do ícone do WhatsApp na primeira posição
             const tr = document.createElement("tr");
             tr.innerHTML = `
+                <td>${whatsappIcon}</td>
                 <td>${cliente.nome}</td>
                 <td>${cliente.endereco}</td>
                 <td>${cliente.telefone}</td>
@@ -49,14 +55,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.valor_marcado}</td>
                 <td>${cliente.proxima_data_agendamento}</td>
                 <td>${cliente.data_marcada}</td>
-                <td>${icone}</td>
+                <td>${iconeStatus}</td>
             `;
 
-            tr.addEventListener("click", (event) => {
-                const selection = window.getSelection();
-                if (selection.toString().length === 0) {
-                    abrirNovaPagina(cliente);
-                }
+            // Evento para redirecionar à outra página ao clicar na linha (exceto quando o ícone é clicado)
+            tr.addEventListener("click", () => {
+                abrirNovaPagina(cliente);
             });
 
             tbody.appendChild(tr);
