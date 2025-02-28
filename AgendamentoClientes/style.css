@@ -1,106 +1,236 @@
-*{
+/*************************************************
+ * CSS para Agenda - Estilo SAP
+ * Desenvolvido para uma aparência moderna, limpa
+ * e profissional. Segue as diretrizes do design SAP.
+ *************************************************/
+
+/* RESET E CONFIGURAÇÕES GLOBAIS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /*************************************************
+   * CABEÇALHO (HEADER)
+   *************************************************/
+  .cabecalho {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0a6ed1;  /* Azul SAP */
+    color: #fff;
+    padding: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  /*************************************************
+   * MENU PRINCIPAL
+   *************************************************/
+  .menu {
+    display: flex;
+    justify-content: center;
+    background-color: #f4f4f4;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Botões do menu */
+  .menu .aba {
+    background-color: #0a6ed1;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 0 5px;
     border: none;
-    justify-content: flex-start;
-}
-.cabecalho{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.menu{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.principal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(214, 214, 255);
-    width: 100%;
-    height: 100vh;
-}
-.aba{
-    background-color: rgb(0, 0, 255);
-    border-color: black;
-    color: azure;
-    text-transform: uppercase;
-    padding: 10px;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 4px 4px 0 0;
     cursor: pointer;
-    margin-right: 2px;
-}
-.abaSelecionada{
-    background-color: rgb(214, 214, 255) !important;
-    color: black;
-}
-.if_principal{
-    overflow-x: hidden;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
+  }
+  
+  .menu .aba:hover {
+    background-color: #085a9b;
+  }
+  
+  /* Botão selecionado no menu */
+  .menu .abaSelecionada {
+    background-color: #fff;
+    color: #0a6ed1;
+    border: 2px solid #0a6ed1;
+  }
+  
+  /*************************************************
+   * ÁREA PRINCIPAL E IFRAME
+   *************************************************/
+  .principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d6d6ff;
+    width: 100%;
+    /* Considera a altura do cabeçalho e do menu (ajuste se necessário) */
+    height: calc(100vh - 100px);
+    padding: 20px;
+  }
+  
+  .if_principal {
     width: 100%;
     height: 100%;
-}
-
-/* NOVO */
-#novo{
+    border: none;
+  }
+  
+  /*************************************************
+   * PÁGINA DE CLIENTLIST (LISTAGEM DE CLIENTES)
+   *************************************************/
+  
+  /* Container dos filtros */
+  #filtros {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Botões de filtro */
+  #filtros .filtro-btn {
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #0a6ed1;
+    border: 1px solid #0a6ed1;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  #filtros .filtro-btn:hover,
+  #filtros .filtro-btn.ativo {
+    background-color: #0a6ed1;
+    color: #fff;
+  }
+  
+  /* Título da página de clientes */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0a6ed1;
+  }
+  
+  /* Campo de pesquisa e botão */
+  #pesquisa {
+    display: inline-block;
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  #btn_pesquisar {
+    padding: 8px 16px;
+    background-color: #0a6ed1;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #btn_pesquisar:hover {
+    background-color: #085a9b;
+  }
+  
+  /* Tabela de clientes */
+  #listaClientes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  /* Cabeçalho da tabela */
+  #listaClientes thead {
+    background-color: #0a6ed1;
+    color: #fff;
+  }
+  
+  /* Células da tabela */
+  #listaClientes th,
+  #listaClientes td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Linhas da tabela com efeito hover para destacar o cliente */
+  #listaClientes tbody tr {
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+  
+  #listaClientes tbody tr:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Imagens (ícones) dentro da tabela */
+  #listaClientes tbody tr td img {
+    vertical-align: middle;
+  }
+  
+  /*************************************************
+   * PÁGINA DE CADASTRO / NOVO CLIENTE
+   *************************************************/
+  #novo {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-}
-.elementosForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    margin-top: 20px;
+  }
+  
+  .elementosForm {
     width: 80%;
     margin-top: 20px;
-}
-.botoesForm{
-
-}
-.campoForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 10px;
+  }
+  
+  .campoForm {
+    margin-bottom: 15px;
     width: 100%;
-}
-.campoForm input{
+  }
+  
+  .campoForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .campoForm input {
     width: 100%;
     padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-}
-.btn_geral{
-    background-color: rgb(0, 0, 255);
-    border-color: black;
-    color: azure;
+  }
+  
+  /* Botão geral dos formulários */
+  .btn_geral {
+    padding: 10px 20px;
+    background-color: #0a6ed1;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
     text-transform: uppercase;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-right: 2px;
-
-}
-/***************/
-/*BotoesFiltros*/
-#btn_pesquisar{
-    cursor: pointer;
-}
-.filtro-btn {
-    padding: 8px 12px;
-    margin: 5px;
-    cursor: pointer;
-    border: 1px solid #007BFF;
-    background-color: white;
-    color: #007BFF;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-.filtro-btn.ativo {
-    background-color: #007BFF;
-    color: white;
-}
-
-/***************/
+  }
+  
+  .btn_geral:hover {
+    background-color: #085a9b;
+  }
+  
+  /*************************************************
+   * FIM DO ARQUIVO CSS
+   *************************************************/
+  
