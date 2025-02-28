@@ -53,20 +53,25 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.quantidade_placas}</td>
                 <td>${cliente.valor_servico}</td>
                 <td>${cliente.valor_marcado}</td>
-                <td>${cliente.proxima_data_agendamento}</td>
-                <td>${cliente.data_marcada}</td>
+                <td>${new Date(cliente.proxima_data_agendamento).toLocaleDateString("pt-BR")}</td>
+                <td>${new Date(cliente.data_marcada).toLocaleDateString("pt-BR")}</td>
                 <td>${iconeStatus}</td>
             `;
 
+            
             // Evento para redirecionar à outra página ao clicar na linha (exceto quando o ícone é clicado)
-            tr.addEventListener("click", () => {
-                abrirNovaPagina(cliente);
+            tr.addEventListener("click", (event) => {
+                const selection = window.getSelection();
+                if (selection.toString().length === 0) {
+                    abrirNovaPagina(cliente);
+                }
             });
 
             tbody.appendChild(tr);
         });
     }
 
+    
     function abrirNovaPagina(cliente) {
         const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}`;
         window.location.href = url;
