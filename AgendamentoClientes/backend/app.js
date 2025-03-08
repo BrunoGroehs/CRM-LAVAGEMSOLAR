@@ -9,7 +9,12 @@ app.use(cors());
 // Rota para buscar clientes
 app.get('/clientes', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM cliente'); // Tabela correta
+    const result = await pool.query(`
+      SELECT c.*, e.endereco, t.numero 
+      FROM cliente c
+      LEFT JOIN endereco e ON c.id_cliente = e.id_cliente
+      LEFT JOIN telefone t ON c.id_cliente = t.id_cliente
+    `);
     res.json(result.rows);
   } catch (err) {
     console.error('Erro ao buscar clientes:', err.message);

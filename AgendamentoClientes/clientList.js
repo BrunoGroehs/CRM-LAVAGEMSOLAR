@@ -38,18 +38,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
                 : "Sem status";
 
-            // Cria o link do WhatsApp com o número do cliente e a mensagem de teste
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone}&text=mensagem%20de%20teste`;
-            // A função onclick="event.stopPropagation()" impede que o clique no ícone dispare o evento do row
-            const whatsappIcon = `<a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()"><img src="src/icons/wpp.png" alt="WhatsApp" width="50"></a>`;
+            // Utiliza os campos atualizados de telefone e endereço
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone_cliente}&text=mensagem%20de%20teste`;
+            const whatsappIcon = `<a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()">
+                                      <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
+                                  </a>`;
 
-            // Cria a linha da tabela com a nova coluna do ícone do WhatsApp na primeira posição
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${whatsappIcon}</td>
                 <td>${cliente.nome}</td>
-                <td>${cliente.endereco}</td>
-                <td>${cliente.telefone}</td>
+                <td>${cliente.cidade || "Sem endereço"}</td>
+                <td>${cliente.telefone || "Sem telefone"}</td>
                 <td>${cliente.quantidade_placas}</td>
                 <td>${cliente.valor_servico}</td>
                 <td>${cliente.valor_marcado}</td>
@@ -58,11 +58,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${iconeStatus}</td>
             `;
 
-            
-            // Evento para redirecionar à outra página ao clicar na linha (exceto quando o ícone é clicado)
+            // Evento para redirecionar à página de detalhes (exceto quando o ícone é clicado)
             tr.addEventListener("click", (event) => {
-                const selection = window.getSelection();
-                if (selection.toString().length === 0) {
+                if (window.getSelection().toString().length === 0) {
                     abrirNovaPagina(cliente);
                 }
             });
@@ -71,9 +69,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    
     function abrirNovaPagina(cliente) {
-        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}`;
+        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone_cliente)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}`;
         window.location.href = url;
     }
 
@@ -83,24 +80,59 @@ document.addEventListener("DOMContentLoaded", async () => {
         atualizarLista(filtrados);
     }
 
+    // Estado para controle da alternância de ordenação para os filtros que ordenam
+    let toggleOrders = {
+        valor: 'desc',
+        limpeza: 'asc',
+        recontato: 'asc'
+    };
+
     function filtrarClientes(filtro) {
         let clientesFiltrados = [...clientes];
 
         switch (filtro) {
-            case "prioridade":
-                clientesFiltrados.sort((a, b) => a.prioridade - b.prioridade);
-                break;
-            case "recentes":
-                clientesFiltrados.sort((a, b) => new Date(b.data_adicionado) - new Date(a.data_adicionado));
-                break;
             case "valor":
-                clientesFiltrados.sort((a, b) => b.valor_servico - a.valor_servico);
+                // Ordena com base no campo valor_servico.
+                if (toggleOrders.valor === 'asc') {
+                    clientesFiltrados.sort((a, b) => a.valor_servico - b.valor_servico);
+                    toggleOrders.valor = 'desc';
+                } else {
+                    clientesFiltrados.sort((a, b) => b.valor_servico - a.valor_servico);
+                    toggleOrders.valor = 'asc';
+                }
                 break;
             case "limpeza":
-                clientesFiltrados = clientesFiltrados.filter(cliente => cliente.limpeza_efetuada);
+                // Filtra registros que possuem data_marcada (indicando que a limpeza foi efetuada)
+                clientesFiltrados = clientesFiltrados.filter(cliente => cliente.data_marcada);
+                // Ordena com base na data_marcada, alternando entre ascendente e descendente
+                if (toggleOrders.limpeza === 'asc') {
+                    clientesFiltrados.sort((a, b) => new Date(a.data_marcada) - new Date(b.data_marcada));
+                    toggleOrders.limpeza = 'desc';
+                } else {
+                    clientesFiltrados.sort((a, b) => new Date(b.data_marcada) - new Date(a.data_marcada));
+                    toggleOrders.limpeza = 'asc';
+                }
                 break;
             case "recontato":
-                clientesFiltrados = clientesFiltrados.filter(cliente => cliente.efetuar_recontato);
+                /* Ordena considerando:
+                   - Se a limpeza foi efetuada (data_marcada existe), utiliza essa data;
+                   - Caso contrário, utiliza a proxima_data_agendamento.
+                   A ordenação alterna entre ascendente e descendente a cada clique. */
+                if (toggleOrders.recontato === 'asc') {
+                    clientesFiltrados.sort((a, b) => {
+                        let dataA = a.data_marcada ? new Date(a.data_marcada) : new Date(a.proxima_data_agendamento);
+                        let dataB = b.data_marcada ? new Date(b.data_marcada) : new Date(b.proxima_data_agendamento);
+                        return dataA - dataB;
+                    });
+                    toggleOrders.recontato = 'desc';
+                } else {
+                    clientesFiltrados.sort((a, b) => {
+                        let dataA = a.data_marcada ? new Date(a.data_marcada) : new Date(a.proxima_data_agendamento);
+                        let dataB = b.data_marcada ? new Date(b.data_marcada) : new Date(b.proxima_data_agendamento);
+                        return dataB - dataA;
+                    });
+                    toggleOrders.recontato = 'asc';
+                }
                 break;
             default:
                 break;

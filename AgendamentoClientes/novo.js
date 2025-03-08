@@ -5,18 +5,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const cliente = {
             nome: document.getElementById("f_nome").value.trim(),
             celular: document.getElementById("f_celular").value.trim(),
-            email: document.getElementById("f_email").value.trim(),
-            dataNasc: document.getElementById("f_dataNasc").value.trim()
+            endereco: document.getElementById("f_endereco").value.trim(),
+            cidade : document.getElementById("f_cidade").value.trim(),
+            qntPlacas : document.getElementById("f_qntPlacas").value.trim(),
+            valor : document.getElementById("f_valor").value.trim()
         };
 
         // Validação básica
-        if (!cliente.nome || !cliente.celular || !cliente.email || !cliente.dataNasc) {
+        if (!cliente.nome || !cliente.celular || !cliente.endereco || !cliente.cidade || !cliente.qntPlacas || !cliente.valor) {
             alert("Preencha todos os campos obrigatórios!");
             return;
         }
 
         try {
-            const response = await fetch("http://localhost:3000/clientes", { // Corrigido para /clientes
+            const response = await fetch("http://localhost:3000/clientes", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

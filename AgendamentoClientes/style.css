@@ -6,231 +6,355 @@
 
 /* RESET E CONFIGURAÇÕES GLOBAIS */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff;
-    color: #333;
-  }
-  
-  /*************************************************
-   * CABEÇALHO (HEADER)
-   *************************************************/
-  .cabecalho {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #0a6ed1;  /* Azul SAP */
-    color: #fff;
-    padding: 20px;
-    font-size: 1.5rem;
-    text-align: center;
-  }
-  
-  /*************************************************
-   * MENU PRINCIPAL
-   *************************************************/
-  .menu {
-    display: flex;
-    justify-content: center;
-    background-color: #f4f4f4;
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  /* Botões do menu */
-  .menu .aba {
-    background-color: #0a6ed1;
-    color: #fff;
-    padding: 10px 20px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 4px 4px 0 0;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: background-color 0.3s;
-  }
-  
-  .menu .aba:hover {
-    background-color: #085a9b;
-  }
-  
-  /* Botão selecionado no menu */
-  .menu .abaSelecionada {
-    background-color: #fff;
-    color: #0a6ed1;
-    border: 2px solid #0a6ed1;
-  }
-  
-  /*************************************************
-   * ÁREA PRINCIPAL E IFRAME
-   *************************************************/
-  .principal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #d6d6ff;
-    width: 100%;
-    /* Considera a altura do cabeçalho e do menu (ajuste se necessário) */
-    height: calc(100vh - 100px);
-    padding: 20px;
-  }
-  
-  .if_principal {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  
-  /*************************************************
-   * PÁGINA DE CLIENTLIST (LISTAGEM DE CLIENTES)
-   *************************************************/
-  
-  /* Container dos filtros */
-  #filtros {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Botões de filtro */
-  #filtros .filtro-btn {
-    padding: 8px 12px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: #fff;
-    color: #0a6ed1;
-    border: 1px solid #0a6ed1;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  #filtros .filtro-btn:hover,
-  #filtros .filtro-btn.ativo {
-    background-color: #0a6ed1;
-    color: #fff;
-  }
-  
-  /* Título da página de clientes */
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #0a6ed1;
-  }
-  
-  /* Campo de pesquisa e botão */
-  #pesquisa {
-    display: inline-block;
-    width: 300px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  #btn_pesquisar {
-    padding: 8px 16px;
-    background-color: #0a6ed1;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  #btn_pesquisar:hover {
-    background-color: #085a9b;
-  }
-  
-  /* Tabela de clientes */
-  #listaClientes {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  /* Cabeçalho da tabela */
-  #listaClientes thead {
-    background-color: #0a6ed1;
-    color: #fff;
-  }
-  
-  /* Células da tabela */
-  #listaClientes th,
-  #listaClientes td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  /* Linhas da tabela com efeito hover para destacar o cliente */
-  #listaClientes tbody tr {
-    transition: background-color 0.3s;
-    cursor: pointer;
-  }
-  
-  #listaClientes tbody tr:hover {
-    background-color: #e0e0e0;
-  }
-  
-  /* Imagens (ícones) dentro da tabela */
-  #listaClientes tbody tr td img {
-    vertical-align: middle;
-  }
-  
-  /*************************************************
-   * PÁGINA DE CADASTRO / NOVO CLIENTE
-   *************************************************/
-  #novo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .elementosForm {
-    width: 80%;
-    margin-top: 20px;
-  }
-  
-  .campoForm {
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  
-  .campoForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .campoForm input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Botão geral dos formulários */
-  .btn_geral {
-    padding: 10px 20px;
-    background-color: #0a6ed1;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-transform: uppercase;
-  }
-  
-  .btn_geral:hover {
-    background-color: #085a9b;
-  }
-  
-  /*************************************************
-   * FIM DO ARQUIVO CSS
-   *************************************************/
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/*************************************************
+* CABEÇALHO (HEADER)
+*************************************************/
+.cabecalho {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0a6ed1;  /* Azul SAP */
+  color: #fff;
+  padding: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/*************************************************
+* MENU PRINCIPAL
+*************************************************/
+.menu {
+  display: flex;
+  justify-content: center;
+  background-color: #f4f4f4;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Botões do menu */
+.menu .aba {
+  background-color: #0a6ed1;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+}
+
+.menu .aba:hover {
+  background-color: #085a9b;
+}
+
+/* Botão selecionado no menu */
+.menu .abaSelecionada {
+  background-color: #fff;
+  color: #0a6ed1;
+  border: 2px solid #0a6ed1;
+}
+
+/*************************************************
+* ÁREA PRINCIPAL E IFRAME
+*************************************************/
+.principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d6d6ff;
+  width: 100%;
+  height: calc(100vh - 100px);
+  padding: 20px;
+}
+
+.if_principal {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/*************************************************
+* PÁGINA DE CLIENTLIST (LISTAGEM DE CLIENTES)
+*************************************************/
+
+/* Container dos filtros */
+#filtros {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Botões de filtro */
+#filtros .filtro-btn {
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #0a6ed1;
+  border: 1px solid #0a6ed1;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#filtros .filtro-btn:hover,
+#filtros .filtro-btn.ativo {
+  background-color: #0a6ed1;
+  color: #fff;
+}
+
+/* Título da página de clientes */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0a6ed1;
+}
+
+/* Campo de pesquisa e botão */
+#pesquisa {
+  display: inline-block;
+  width: 300px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#btn_pesquisar {
+  padding: 8px 16px;
+  background-color: #0a6ed1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#btn_pesquisar:hover {
+  background-color: #085a9b;
+}
+
+/* Tabela de clientes */
+#listaClientes {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Cabeçalho da tabela */
+#listaClientes thead {
+  background-color: #0a6ed1;
+  color: #fff;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Células da tabela */
+#listaClientes th,
+#listaClientes td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Remove a borda inferior da última linha */
+#listaClientes tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Linhas da tabela com efeito hover para destacar o cliente */
+#listaClientes tbody tr {
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+#listaClientes tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+/* Imagens (ícones) dentro da tabela */
+#listaClientes tbody tr td img {
+  vertical-align: middle;
+}
+
+/*************************************************
+* PÁGINA DE CADASTRO / NOVO CLIENTE
+*************************************************/
+#novo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.elementosForm {
+  width: 80%;
+  margin-top: 20px;
+}
+
+.campoForm {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.campoForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.campoForm input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Botão geral dos formulários */
+.btn_geral {
+  padding: 10px 20px;
+  background-color: #0a6ed1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+}
+
+.btn_geral:hover {
+  background-color: #085a9b;
+}
+
+/*************************************************
+* FIM DO ARQUIVO CSS
+*************************************************/
+/*************************************************
+ * CSS para Agenda - Estilo SAP
+ * Desenvolvido para uma aparência moderna, limpa
+ * e profissional.
+ *************************************************/
+
+/* RESET E CONFIGURAÇÕES GLOBAIS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+/*************************************************
+ * ESTILOS GLOBAIS PARA A INTERFACE
+ *************************************************/
+
+/* Botão geral */
+.btn_geral {
+  padding: 10px 20px;
+  background-color: #0a6ed1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-transform: uppercase;
+}
+
+.btn_geral:hover {
+  background-color: #085a9b;
+}
+
+/*************************************************
+ * ESTILOS PARA PÁGINA DE DETALHES DO CLIENTE
+ *************************************************/
+
+/* Cabeçalho */
+.header-container {
+  display: flex;
+  align-items: center;
+  background-color: #0a6ed1;
+  padding: 20px;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-container h1 {
+  margin-left: 20px;
+  font-size: 1.8rem;
+}
+
+/* Seções */
+.secao {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.secao h3 {
+  color: #0a6ed1;
+  margin-bottom: 10px;
+}
+
+/* Grupos de formulário */
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Histórico */
+.historico {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.historico h3 {
+  color: #0a6ed1;
+  margin-bottom: 10px;
+}
+
+/* Container dos botões finais */
+.btn-container {
+  text-align: center;
+  margin-top: 20px;
+}

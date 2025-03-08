@@ -1,107 +1,109 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Cliente</title>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const params = new URLSearchParams(window.location.search);
-            const nome = params.get("nome");
-            const telefone = params.get("telefone");
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Cliente</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const nome = params.get("nome");
+      const telefone = params.get("telefone");
 
-            // Preencher dados existentes
-            document.getElementById("nome-cliente").textContent = nome;
-            document.getElementById("id_cliente").textContent = params.get("id_cliente");
-            document.getElementById("telefone").textContent = telefone;
-            document.getElementById("valor_servico").textContent = params.get("valor_servico");
+      // Preencher dados existentes
+      document.getElementById("nome-cliente").textContent = nome;
+      document.getElementById("id_cliente").textContent = params.get("id_cliente");
+      document.getElementById("telefone").textContent = telefone;
+      document.getElementById("valor_servico").textContent = params.get("valor_servico");
 
-            // Configurar o link do WhatsApp com o telefone do cliente
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${telefone}&text=mensagem%20de%20teste`;
-            const whatsappAnchor = document.getElementById("whatsapp-link");
-            if (whatsappAnchor) {
-                whatsappAnchor.href = whatsappLink;
-            }
-        });
-    </script>
+      // Configurar o link do WhatsApp com o telefone do cliente
+      const whatsappLink = `https://api.whatsapp.com/send?phone=${telefone}&text=mensagem%20de%20teste`;
+      const whatsappAnchor = document.getElementById("whatsapp-link");
+      if (whatsappAnchor) {
+          whatsappAnchor.href = whatsappLink;
+      }
+    });
+  </script>
 </head>
 <body>
-    <div class="header-container">
-        <a id="whatsapp-link" href="#" target="_blank" onclick="event.stopPropagation()">
-            <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
-        </a>
-        <h1 id="nome-cliente"></h1>
+  <div class="header-container">
+    <a id="whatsapp-link" href="#" target="_blank" onclick="event.stopPropagation()">
+      <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
+    </a>
+    <h1 id="nome-cliente"></h1>
+  </div>
+  
+  <!-- Seção de Agendamento -->
+  <div class="secao">
+    <h3>Novo Agendamento</h3>
+    <div class="form-group">
+      <label>Data:</label>
+      <input type="date" id="data-agendamento">
     </div>
+    <div class="form-group">
+      <label>Valor:</label>
+      <input type="number" id="valor-agendamento">
+    </div>
+    <div class="form-group">
+      <label>Descrição:</label>
+      <textarea id="descricao-agendamento" rows="3"></textarea>
+    </div>
+    <button class="btn_geral" onclick="salvarAgendamento()">Salvar Agendamento</button>
+  </div>
+
+  <!-- Informações Principais -->
+  <div class="secao">
+    <h3>Informações do Cliente</h3>
+    <p><strong>ID:</strong> <span id="id_cliente"></span></p>
+    <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+    <p><strong>Valor do Serviço:</strong> <span id="valor_servico"></span></p>
     
-    <!-- Seção de Agendamento -->
-    <div class="secao">
-        <h3>Novo Agendamento</h3>
-        <div>
-            <label>Data: <input type="date" id="data-agendamento"></label>
-            <label>Valor: <input type="number" id="valor-agendamento"></label>
-        </div>
-        <div>
-            <label>Descrição:<br>
-            <textarea id="descricao-agendamento" rows="3" cols="50"></textarea>
-            </label>
-        </div>
-        <button onclick="salvarAgendamento()">Salvar Agendamento</button>
+    <div class="form-group">
+      <label>Status:</label>
+      <select id="status-cliente">
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+        <option value="pendente">Pendente</option>
+        <option value="cancelado">Cancelado</option>
+      </select>
     </div>
-
-    <!-- Informações Principais -->
-    <div class="secao">
-        <h3>Informações do Cliente</h3>
-        <p><strong>ID:</strong> <span id="id_cliente"></span></p>
-        <p><strong>Telefone:</strong> <span id="telefone"></span></p>
-        <p><strong>Valor do Serviço:</strong> <span id="valor_servico"></span></p>
-        
-        <label>Status:
-            <select id="status-cliente">
-                <option value="ativo">Ativo</option>
-                <option value="inativo">Inativo</option>
-                <option value="pendente">Pendente</option>
-                <option value="cancelado">Cancelado</option>
-            </select>
-        </label>
-
-        <label>Tempo para Recontato:
-            <select id="tempo-recontato">
-                <option value="1">1 dia</option>
-                <option value="3">3 dias</option>
-                <option value="7">1 semana</option>
-                <option value="15">15 dias</option>
-                <option value="30">1 mês</option>
-            </select>
-        </label>
+    <div class="form-group">
+      <label>Tempo para Recontato:</label>
+      <select id="tempo-recontato">
+        <option value="1">1 dia</option>
+        <option value="3">3 dias</option>
+        <option value="7">1 semana</option>
+        <option value="15">15 dias</option>
+        <option value="30">1 mês</option>
+      </select>
     </div>
+  </div>
 
-    <!-- Histórico -->
-    <div class="historico">
-        <h3>Histórico do Cliente</h3>
-        <div id="conteudo-historico">
-            <!-- Conteúdo do histórico viria aqui -->
-            <p>2023-10-15: Cliente realizou primeiro contato</p>
-            <p>2023-10-20: Serviço agendado para 2023-11-01</p>
-        </div>
+  <!-- Histórico -->
+  <div class="historico">
+    <h3>Histórico do Cliente</h3>
+    <div id="conteudo-historico">
+      <p>2023-10-15: Cliente realizou primeiro contato</p>
+      <p>2023-10-20: Serviço agendado para 2023-11-01</p>
     </div>
+  </div>
 
-    <!-- Botões Finais -->
-    <div style="margin-top: 20px;">
-        <button onclick="salvarTudo()">Salvar Tudo</button>
-        <button onclick="window.history.back()">Cancelar</button>
-    </div>
+  <!-- Botões Finais -->
+  <div class="btn-container">
+    <button class="btn_geral" onclick="salvarTudo()">Salvar Tudo</button>
+    <button class="btn_geral" onclick="window.history.back()">Cancelar</button>
+  </div>
 
-    <script>
-        function salvarAgendamento() {
-            // Lógica para salvar o agendamento
-            alert('Agendamento salvo temporariamente!');
-        }
-
-        function salvarTudo() {
-            // Lógica para salvar todas as alterações
-            alert('Todas alterações salvas!');
-        }
-    </script>
+  <script>
+    function salvarAgendamento() {
+      // Lógica para salvar o agendamento
+      alert('Agendamento salvo temporariamente!');
+    }
+    function salvarTudo() {
+      // Lógica para salvar todas as alterações
+      alert('Todas alterações salvas!');
+    }
+  </script>
 </body>
 </html>
