@@ -1,3 +1,4 @@
+//clientList.js
 document.addEventListener("DOMContentLoaded", async () => {
     const listaClientes = document.getElementById("listaClientes");
     const inputPesquisa = document.getElementById("pesquisa");
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         "1": "src/icons/aguardandoAgendamento.png",
         "2": "src/icons/clienteNaoQuer.png",
         "3": "src/icons/reagendado.png",
-        "4": "src/icons/aguardandoAgendamento.png",
+        "4": "src/icons/oportunidade.png", //quando for agendado
         "5": "src/icons/limpezaEfetuada.png",
     };
 
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 : "Sem status";
 
             // Utiliza os campos atualizados de telefone e endereço
-            const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone_cliente}&text=mensagem%20de%20teste`;
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone}&text=mensagem%20de%20teste`;
             const whatsappIcon = `<a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()">
                                       <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
                                   </a>`;
@@ -70,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function abrirNovaPagina(cliente) {
-        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone_cliente)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}`;
+        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}&status_servico_id=${encodeURIComponent(cliente.status_servico_id)}`;
         window.location.href = url;
     }
 

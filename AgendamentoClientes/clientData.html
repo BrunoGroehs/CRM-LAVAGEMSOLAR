@@ -5,26 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detalhes do Cliente</title>
   <link rel="stylesheet" type="text/css" href="style.css">
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const nome = params.get("nome");
-      const telefone = params.get("telefone");
-
-      // Preencher dados existentes
-      document.getElementById("nome-cliente").textContent = nome;
-      document.getElementById("id_cliente").textContent = params.get("id_cliente");
-      document.getElementById("telefone").textContent = telefone;
-      document.getElementById("valor_servico").textContent = params.get("valor_servico");
-
-      // Configurar o link do WhatsApp com o telefone do cliente
-      const whatsappLink = `https://api.whatsapp.com/send?phone=${telefone}&text=mensagem%20de%20teste`;
-      const whatsappAnchor = document.getElementById("whatsapp-link");
-      if (whatsappAnchor) {
-          whatsappAnchor.href = whatsappLink;
-      }
-    });
-  </script>
+  <script src="clientData.js" type="module"></script>
 </head>
 <body>
   <div class="header-container">
@@ -33,77 +14,71 @@
     </a>
     <h1 id="nome-cliente"></h1>
   </div>
-  
-  <!-- Seção de Agendamento -->
-  <div class="secao">
-    <h3>Novo Agendamento</h3>
-    <div class="form-group">
-      <label>Data:</label>
-      <input type="date" id="data-agendamento">
-    </div>
-    <div class="form-group">
-      <label>Valor:</label>
-      <input type="number" id="valor-agendamento">
-    </div>
-    <div class="form-group">
-      <label>Descrição:</label>
-      <textarea id="descricao-agendamento" rows="3"></textarea>
-    </div>
-    <button class="btn_geral" onclick="salvarAgendamento()">Salvar Agendamento</button>
-  </div>
 
-  <!-- Informações Principais -->
-  <div class="secao">
-    <h3>Informações do Cliente</h3>
-    <p><strong>ID:</strong> <span id="id_cliente"></span></p>
-    <p><strong>Telefone:</strong> <span id="telefone"></span></p>
-    <p><strong>Valor do Serviço:</strong> <span id="valor_servico"></span></p>
-    
-    <div class="form-group">
-      <label>Status:</label>
-      <select id="status-cliente">
-        <option value="ativo">Ativo</option>
-        <option value="inativo">Inativo</option>
-        <option value="pendente">Pendente</option>
-        <option value="cancelado">Cancelado</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Tempo para Recontato:</label>
-      <select id="tempo-recontato">
-        <option value="1">1 dia</option>
-        <option value="3">3 dias</option>
-        <option value="7">1 semana</option>
-        <option value="15">15 dias</option>
-        <option value="30">1 mês</option>
-      </select>
+  <!-- Container para as seções lado a lado -->
+  <div class="secoes-container">
+    <!-- Seção de Agendamento -->
+<div class="secao">
+  <h3>Novo Agendamento</h3>
+  <div class="form-group">
+    <label>Data:</label>
+    <input type="date" id="data-agendamento">
+  </div>
+  <div class="form-group">
+    <label>Valor:</label>
+    <input type="number" id="valor-agendamento">
+  </div>
+  <div class="form-group">
+    <label>Descrição:</label>
+    <textarea id="descricao-agendamento" rows="3"></textarea>
+  </div>
+  <button class="btn_Teste" onclick="">teste</button>
+</div>
+    <!-- Informações Principais -->
+    <div class="secao">
+      <h3>Informações do Cliente</h3>
+      <p><strong>ID:</strong> <span id="id_cliente"></span></p>
+      <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+      <p><strong>Valor do Serviço:</strong> R$ <span id="valor_marcado"></span></p>
+      
+      <div class="form-group">
+        <label>Status:</label>
+        <select id="status-cliente">
+            <option value="" disabled selected>Coloque o status aqui</option>
+            <option value="1">Aguardando Agendamento</option>
+            <option value="2">Cliente Não Quer</option>
+            <option value="3">Reagendado</option>
+            <option value="4">Aguardando Agendamento</option>
+            <option value="5">Limpeza Efetuada</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Tempo para Recontato:</label>
+        <select id="tempo-recontato">
+          <option value="1">1 dia</option>
+          <option value="3">3 dias</option>
+          <option value="7">1 semana</option>
+          <option value="15">15 dias</option>
+          <option value="30">1 mês</option>
+        </select>
+      </div>
     </div>
   </div>
 
   <!-- Histórico -->
-  <div class="historico">
-    <h3>Histórico do Cliente</h3>
-    <div id="conteudo-historico">
-      <p>2023-10-15: Cliente realizou primeiro contato</p>
-      <p>2023-10-20: Serviço agendado para 2023-11-01</p>
-    </div>
+ <!-- Seção do Histórico -->
+<div class="historico">
+  <h3>Histórico do Cliente</h3>
+  <div id="conteudo-historico">
+    <!-- Os registros do histórico serão inseridos aqui -->
   </div>
+</div>
 
   <!-- Botões Finais -->
   <div class="btn-container">
     <button class="btn_geral" onclick="salvarTudo()">Salvar Tudo</button>
     <button class="btn_geral" onclick="window.history.back()">Cancelar</button>
   </div>
-
-  <script>
-    function salvarAgendamento() {
-      // Lógica para salvar o agendamento
-      alert('Agendamento salvo temporariamente!');
-    }
-    function salvarTudo() {
-      // Lógica para salvar todas as alterações
-      alert('Todas alterações salvas!');
-    }
-  </script>
 </body>
 </html>

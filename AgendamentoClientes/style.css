@@ -301,6 +301,7 @@ body {
 .header-container h1 {
   margin-left: 20px;
   font-size: 1.8rem;
+  color: #ffffff;
 }
 
 /* Seções */
@@ -357,4 +358,45 @@ body {
 .btn-container {
   text-align: center;
   margin-top: 20px;
+}
+ /* Adicione este estilo para o layout */
+ .secoes-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.secao {
+  flex: 1;
+  min-width: 300px;
+}
+input[type="date"] {
+  padding: 8px;
+  width: 100%;
+}
+
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+/*TOAST*/
+.toast {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+/* Toast de erro */
+.toast.error {
+  background-color: #e74c3c;
+}
+
+/* Toast de sucesso */
+.toast.success {
+  background-color: #2ecc71;
 }

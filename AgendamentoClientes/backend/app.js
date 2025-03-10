@@ -1,3 +1,4 @@
+//app.js
 const express = require('express');
 const cors = require('cors');
 const pool = require('./connectData');
@@ -10,10 +11,7 @@ app.use(cors());
 app.get('/clientes', async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT c.*, e.endereco, t.numero 
-      FROM cliente c
-      LEFT JOIN endereco e ON c.id_cliente = e.id_cliente
-      LEFT JOIN telefone t ON c.id_cliente = t.id_cliente
+      SELECT * FROM public.cliente
     `);
     res.json(result.rows);
   } catch (err) {
@@ -42,6 +40,39 @@ app.post('/clientes', async (req, res) => {
     res.status(500).json({ error: 'Erro ao inserir cliente' });
   }
 });
+
+app.post('/historico', async (req, res) => {
+  const { cliente_id, descricao, valor, data_historico } = req.body;
+  if (!cliente_id || !descricao || !valor || !data_historico) {
+    return res.status(400).json({ error: 'cliente_id, descricao, valor e data_historico são obrigatórios' });
+  }
+  try {
+    const result = await pool.query(
+      `INSERT INTO historico_cliente (cliente_id, descricao, valor, data_historico)
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [cliente_id, descricao, valor, data_historico]
+    );
+    res.status(201).json({ message: 'Histórico adicionado com sucesso', historico: result.rows[0] });
+  } catch (err) {
+    console.error('Erro ao adicionar histórico:', err.message);
+    res.status(500).json({ error: 'Erro ao adicionar histórico' });
+  }
+});
+
+app.get('/historico/:cliente_id', async (req, res) => {
+  const cliente_id = req.params.cliente_id;
+  try {
+    const result = await pool.query(
+      `SELECT * FROM historico_cliente WHERE cliente_id = $1 ORDER BY data_historico DESC`,
+      [cliente_id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Erro ao buscar histórico:', err.message);
+    res.status(500).json({ error: 'Erro ao buscar histórico' });
+  }
+});
+
 
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
