@@ -1,3 +1,4 @@
+//novo.js
 document.addEventListener("DOMContentLoaded", () => {
     const btnGravar = document.querySelector(".btn_geral"); // Primeiro botão "Gravar"
 
