@@ -1,4 +1,6 @@
-//clientData.js
+/* 
+  //clientData.js (antigo)
+*/
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const nome = params.get("nome");
@@ -115,7 +117,6 @@ function fecharPopup() {
 
 // Função para excluir um registro do histórico
 function excluirHistorico(historicoId) {
-  console.log("Excluindo registro com id:", historicoId);
   fetch(`http://localhost:3000/historico/${historicoId}`, { method: "DELETE" })
     .then(response => {
       if (!response.ok) throw new Error("Erro ao excluir histórico");

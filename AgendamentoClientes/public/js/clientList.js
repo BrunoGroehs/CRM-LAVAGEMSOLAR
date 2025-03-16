@@ -1,4 +1,6 @@
-//clientList.js
+/* 
+  //clientList.js (antigo)
+*/
 document.addEventListener("DOMContentLoaded", async () => {
     const listaClientes = document.getElementById("listaClientes");
     const inputPesquisa = document.getElementById("pesquisa");
@@ -6,12 +8,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const botoesFiltro = document.querySelectorAll(".filtro-btn");
     let clientes = [];
 
+    // Ajuste dos caminhos para os ícones de status
     const iconesStatus = {
-        "1": "src/icons/aguardandoAgendamento.png",
-        "2": "src/icons/clienteNaoQuer.png",
-        "3": "src/icons/reagendado.png",
-        "4": "src/icons/oportunidade.png", //quando for agendado
-        "5": "src/icons/limpezaEfetuada.png",
+        "1": "./icons/aguardandoAgendamento.png",
+        "2": "./icons/clienteNaoQuer.png",
+        "3": "./icons/reagendado.png",
+        "4": "./icons/oportunidade.png",
+        "5": "./icons/limpezaEfetuada.png",
     };
 
     async function carregarClientes() {
@@ -30,20 +33,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         tbody.innerHTML = "";
 
         clientesFiltrados.forEach(cliente => {
-            // Trata o status para buscar o ícone correspondente
+            // Identifica o status para buscar o ícone
             const statusServico = cliente.status_servico && cliente.status_servico.descricao
                 ? cliente.status_servico.descricao.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 : "";
             const statusId = cliente.status_servico_id ? String(cliente.status_servico_id) : "";
+
+            // Verifica se existe ícone por statusId ou statusServico
             const iconeStatus = (iconesStatus[statusServico] || iconesStatus[statusId])
                 ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
                 : "Sem status";
 
-            // Utiliza os campos atualizados de telefone e endereço
+            // Link do WhatsApp
             const whatsappLink = `https://api.whatsapp.com/send?phone=${cliente.telefone}&text=mensagem%20de%20teste`;
-            const whatsappIcon = `<a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()">
-                                      <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
-                                  </a>`;
+            const whatsappIcon = `
+                <a href="${whatsappLink}" target="_blank" onclick="event.stopPropagation()">
+                    <img src="./icons/wpp.png" alt="WhatsApp" width="50">
+                </a>`;
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
@@ -93,7 +99,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         switch (filtro) {
             case "valor":
-                // Ordena com base no campo valor_servico.
                 if (toggleOrders.valor === 'asc') {
                     clientesFiltrados.sort((a, b) => a.valor_servico - b.valor_servico);
                     toggleOrders.valor = 'desc';
@@ -105,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             case "limpeza":
                 // Filtra registros que possuem data_marcada (indicando que a limpeza foi efetuada)
                 clientesFiltrados = clientesFiltrados.filter(cliente => cliente.data_marcada);
-                // Ordena com base na data_marcada, alternando entre ascendente e descendente
+                // Ordena pela data_marcada
                 if (toggleOrders.limpeza === 'asc') {
                     clientesFiltrados.sort((a, b) => new Date(a.data_marcada) - new Date(b.data_marcada));
                     toggleOrders.limpeza = 'desc';
@@ -118,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 /* Ordena considerando:
                    - Se a limpeza foi efetuada (data_marcada existe), utiliza essa data;
                    - Caso contrário, utiliza a proxima_data_agendamento.
-                   A ordenação alterna entre ascendente e descendente a cada clique. */
+                */
                 if (toggleOrders.recontato === 'asc') {
                     clientesFiltrados.sort((a, b) => {
                         let dataA = a.data_marcada ? new Date(a.data_marcada) : new Date(a.proxima_data_agendamento);

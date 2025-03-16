@@ -1,17 +1,18 @@
+<!-- //clientData.html (antigo) -->
 <!DOCTYPE html>
-<!--clientData.html-->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detalhes do Cliente</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="clientData.js" type="module"></script>
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <script src="./js/clientData.js" type="module"></script>
 </head>
 <body>
   <div class="header-container">
+    <!-- Ajuste do caminho do ícone WhatsApp -->
     <a id="whatsapp-link" href="#" target="_blank" onclick="event.stopPropagation()">
-      <img src="src/icons/wpp.png" alt="WhatsApp" width="50">
+      <img src="./icons/wpp.png" alt="WhatsApp" width="50">
     </a>
     <h1 id="nome-cliente"></h1>
   </div>
@@ -19,22 +20,22 @@
   <!-- Container para as seções lado a lado -->
   <div class="secoes-container">
     <!-- Seção de Agendamento -->
-<div class="secao">
-  <h3>Novo Agendamento</h3>
-  <div class="form-group">
-    <label>Data:</label>
-    <input type="date" id="data-agendamento">
-  </div>
-  <div class="form-group">
-    <label>Valor:</label>
-    <input type="number" id="valor-agendamento">
-  </div>
-  <div class="form-group">
-    <label>Descrição:</label>
-    <textarea id="descricao-agendamento" rows="3"></textarea>
-  </div>
-  <button class="btn_Teste" onclick="">teste</button>
-</div>
+    <div class="secao">
+      <h3>Novo Agendamento</h3>
+      <div class="form-group">
+        <label>Data:</label>
+        <input type="date" id="data-agendamento">
+      </div>
+      <div class="form-group">
+        <label>Valor:</label>
+        <input type="number" id="valor-agendamento">
+      </div>
+      <div class="form-group">
+        <label>Descrição:</label>
+        <textarea id="descricao-agendamento" rows="3"></textarea>
+      </div>
+      <button class="btn_Teste" onclick="">teste</button>
+    </div>
     <!-- Informações Principais -->
     <div class="secao">
       <h3>Informações do Cliente</h3>
@@ -68,13 +69,13 @@
   </div>
 
   <!-- Histórico -->
- <!-- Seção do Histórico -->
-<div class="historico">
-  <h3>Histórico do Cliente</h3>
-  <div id="conteudo-historico">
-    <!-- Os registros do histórico serão inseridos aqui -->
+  <!-- Seção do Histórico -->
+  <div class="historico">
+    <h3>Histórico do Cliente</h3>
+    <div id="conteudo-historico">
+      <!-- Os registros do histórico serão inseridos aqui -->
+    </div>
   </div>
-</div>
 
   <!-- Botões Finais -->
   <div class="btn-container">
