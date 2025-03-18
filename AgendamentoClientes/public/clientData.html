@@ -1,4 +1,3 @@
-<!-- //clientData.html (antigo) -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -34,9 +33,11 @@
         <label>Descrição:</label>
         <textarea id="descricao-agendamento" rows="3"></textarea>
       </div>
-      <button class="btn_Teste" onclick="">teste</button>
+      <!-- Botão para salvar apenas o agendamento -->
+      <button class="btn_geral" onclick="salvarAgendamento()">Salvar Agendamento</button>
     </div>
-    <!-- Informações Principais -->
+    
+    <!-- Seção de Informações do Cliente -->
     <div class="secao">
       <h3>Informações do Cliente</h3>
       <p><strong>ID:</strong> <span id="id_cliente"></span></p>
@@ -46,30 +47,32 @@
       <div class="form-group">
         <label>Status:</label>
         <select id="status-cliente">
-            <option value="" disabled selected>Coloque o status aqui</option>
-            <option value="1">Aguardando Agendamento</option>
-            <option value="2">Cliente Não Quer</option>
-            <option value="3">Reagendado</option>
-            <option value="4">Aguardando Agendamento</option>
-            <option value="5">Limpeza Efetuada</option>
+          <option value="" disabled selected>Coloque o status aqui</option>
+          <option value="1">Aguardando Agendamento</option>
+          <option value="2">Cliente Não Quer</option>
+          <option value="3">Reagendado</option>
+          <option value="4">Aguardando Agendamento</option>
+          <option value="5">Limpeza Efetuada</option>
         </select>
       </div>
       
       <div class="form-group">
         <label>Tempo para Recontato:</label>
         <select id="tempo-recontato">
+          <option value="">Sem alteração</option>
           <option value="1">1 dia</option>
           <option value="3">3 dias</option>
           <option value="7">1 semana</option>
           <option value="15">15 dias</option>
           <option value="30">1 mês</option>
-        </select>
+        </select>        
       </div>
+      <!-- Botão para salvar apenas as informações do cliente -->
+      <button class="btn_geral" onclick="salvarInformacoesCliente()">Salvar Informações do Cliente</button>
     </div>
   </div>
 
-  <!-- Histórico -->
-  <!-- Seção do Histórico -->
+  <!-- Histórico do Cliente -->
   <div class="historico">
     <h3>Histórico do Cliente</h3>
     <div id="conteudo-historico">
@@ -79,6 +82,7 @@
 
   <!-- Botões Finais -->
   <div class="btn-container">
+    <!-- Botão para salvar tudo (agendamento + informações do cliente) -->
     <button class="btn_geral" onclick="salvarTudo()">Salvar Tudo</button>
     <button class="btn_geral" onclick="window.history.back()">Cancelar</button>
   </div>

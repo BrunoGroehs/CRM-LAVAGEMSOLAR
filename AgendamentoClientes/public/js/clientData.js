@@ -1,6 +1,3 @@
-/* 
-  //clientData.js (antigo)
-*/
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const nome = params.get("nome");
@@ -33,7 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Carregar histórico do cliente
   carregarHistorico(id_cliente);
   
-  // Torna a função salvarTudo acessível globalmente para o onclick inline
+  // Torna as funções acessíveis globalmente para uso em onclick inline
+  window.salvarAgendamento = salvarAgendamento;
+  window.salvarInformacoesCliente = salvarInformacoesCliente;
   window.salvarTudo = salvarTudo;
 });
 
@@ -122,7 +121,7 @@ function excluirHistorico(historicoId) {
       if (!response.ok) throw new Error("Erro ao excluir histórico");
       return response.json();
     })
-    .then(data => {
+    .then(() => {
       fecharPopup();
       const clienteId = document.getElementById("id_cliente").textContent;
       carregarHistorico(clienteId);
@@ -134,7 +133,7 @@ function excluirHistorico(historicoId) {
     });
 }
 
-// Função para adicionar um novo registro de histórico
+// Função para adicionar um novo registro de histórico (agendamento)
 function adicionarHistorico(clienteId, descricao, valor, dataAgendamento) {
   fetch("http://localhost:3000/historico", {
     method: "POST",
@@ -174,19 +173,81 @@ function adicionarHistorico(clienteId, descricao, valor, dataAgendamento) {
     });
 }
 
-// Função chamada ao clicar em "Salvar Tudo"
-function salvarTudo() {
+
+// Função para salvar apenas o agendamento (dentro da div Novo Agendamento)
+function salvarAgendamento() {
   const id_cliente = document.getElementById("id_cliente").textContent;
   const descricaoAgendamento = document.getElementById("descricao-agendamento").value;
   const valorAgendamento = document.getElementById("valor-agendamento").value;
   const dataAgendamento = document.getElementById("data-agendamento").value;
-  
+
   if (!descricaoAgendamento.trim() || !valorAgendamento.trim() || !dataAgendamento.trim()) {
-    showToast("Por favor, preencha a data, valor e descrição.", "error");
+    showToast("Preencha todos os campos do agendamento!", "error");
     return;
   }
-  
+
   adicionarHistorico(id_cliente, descricaoAgendamento, valorAgendamento, dataAgendamento);
+}
+
+// Função para salvar apenas as informações do cliente (dentro da div Informações do Cliente)
+function salvarInformacoesCliente() {
+  console.log("id_cliente");
+  const id_cliente = document.getElementById("id_cliente").textContent;
+  const statusCliente = document.getElementById("status-cliente").value;
+  const tempoRecontato = document.getElementById("tempo-recontato").value;
+  
+  // Exibir os valores para conferir se estão corretos
+  console.log("ID do cliente:", id_cliente);
+  console.log("Status do cliente:", statusCliente);
+  console.log("Tempo para recontato:", tempoRecontato);
+  
+  // Cria o objeto payload com o status do cliente
+  let payload = {
+    status_cliente: statusCliente
+  };
+
+  // Se o usuário tiver selecionado um tempo, adiciona no payload.
+  // Caso contrário, podemos enviar null (se o backend esperar isso) ou omitir o campo
+  if (tempoRecontato) {
+    payload.tempo_recontato = tempoRecontato;
+  } else {
+    payload.tempo_recontato = null; // ajuste conforme o que o seu backend espera
+  }
+  
+  console.log("Payload que será enviado:", payload);
+  
+  fetch(`http://localhost:3000/clientes/${id_cliente}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(response => {
+      if (!response.ok) {
+        // Tenta ler a resposta para ver mais detalhes do erro
+        return response.text().then(text => {
+          console.error("Resposta do servidor:", text);
+          throw new Error("Erro ao salvar informações do cliente.");
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Resposta do servidor:", data);
+      showToast("Informações do cliente salvas com sucesso!", "success");
+    })
+    .catch(error => {
+      console.error("Erro ao salvar cliente:", error);
+      showToast("Erro ao salvar informações do cliente.", "error");
+    });
+}
+
+
+// Função para salvar tudo junto
+function salvarTudo() {
+  salvarAgendamento();
+  salvarInformacoesCliente();
 }
 
 // Função para exibir um toast na tela

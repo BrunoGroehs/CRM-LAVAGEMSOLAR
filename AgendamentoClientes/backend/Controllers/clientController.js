@@ -32,3 +32,38 @@ exports.createClient = async (req, res) => {
     res.status(500).json({ error: 'Erro ao inserir cliente' });
   }
 };
+
+// Rota para atualizar informações do cliente (status e tempo de recontato)
+// Rota para atualizar informações do cliente (apenas status)
+exports.updateClient = async (req, res) => {
+  const id = req.params.id;
+  const { status_cliente } = req.body; // Removido tempo_recontato
+
+  if (!status_cliente) {
+    return res.status(400).json({ error: "O status do cliente é obrigatório." });
+  }
+
+  // Converter para inteiro
+  const statusInt = parseInt(status_cliente, 10);
+
+  if (isNaN(statusInt)) {
+    return res.status(400).json({ error: "Status inválido." });
+  }
+
+  try {
+    // Query atualizada (somente status_servico_id)
+    const result = await pool.query(
+      'UPDATE cliente SET status_servico_id = $1 WHERE id_cliente = $2 RETURNING *',
+      [statusInt, id] // Apenas 2 parâmetros
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Cliente não encontrado" });
+    }
+
+    res.json({ message: "Cliente atualizado com sucesso", cliente: result.rows[0] });
+  } catch (err) {
+    console.error("Erro detalhado:", err.message);
+    res.status(500).json({ error: "Erro ao atualizar cliente: " + err.message });
+  }
+};

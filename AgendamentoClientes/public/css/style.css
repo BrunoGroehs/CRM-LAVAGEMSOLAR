@@ -73,7 +73,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #d6d6ff;
+  background-color: #fff;
   width: 100%;
   height: calc(100vh - 100px);
   padding: 20px;
