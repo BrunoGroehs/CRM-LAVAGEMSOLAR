@@ -37,24 +37,22 @@ exports.createClient = async (req, res) => {
 // Rota para atualizar informações do cliente (apenas status)
 exports.updateClient = async (req, res) => {
   const id = req.params.id;
-  const { status_cliente } = req.body; // Removido tempo_recontato
+  const { status_cliente, proxima_data_agendamento } = req.body;
 
-  if (!status_cliente) {
-    return res.status(400).json({ error: "O status do cliente é obrigatório." });
+  if (!status_cliente || !proxima_data_agendamento) {
+    return res.status(400).json({ error: "Status do cliente e próxima data de agendamento são obrigatórios." });
   }
 
   // Converter para inteiro
   const statusInt = parseInt(status_cliente, 10);
-
   if (isNaN(statusInt)) {
     return res.status(400).json({ error: "Status inválido." });
   }
 
   try {
-    // Query atualizada (somente status_servico_id)
     const result = await pool.query(
-      'UPDATE cliente SET status_servico_id = $1 WHERE id_cliente = $2 RETURNING *',
-      [statusInt, id] // Apenas 2 parâmetros
+      'UPDATE cliente SET status_servico_id = $1, proxima_data_agendamento = $2 WHERE id_cliente = $3 RETURNING *',
+      [statusInt, proxima_data_agendamento, id]
     );
 
     if (result.rowCount === 0) {

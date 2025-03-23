@@ -77,9 +77,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function abrirNovaPagina(cliente) {
-        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}&status_servico_id=${encodeURIComponent(cliente.status_servico_id)}`;
+        const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}&status_servico_id=${encodeURIComponent(cliente.status_servico_id)}&proxima_data_agendamento=${encodeURIComponent(cliente.proxima_data_agendamento)}`;
         window.location.href = url;
     }
+
 
     async function pesquisarClientes() {
         const termo = inputPesquisa.value.toLowerCase();

@@ -191,31 +191,42 @@ function salvarAgendamento() {
 
 // Função para salvar apenas as informações do cliente (dentro da div Informações do Cliente)
 function salvarInformacoesCliente() {
-  console.log("id_cliente");
+  // Extrai os parâmetros da URL
+  const params = new URLSearchParams(window.location.search);
+  const proximaDataAgendamento = params.get("proxima_data_agendamento"); // formato esperado: "YYYY-MM-DD" ou compatível
+
+  // Obtém o valor de tempoRecontato (em dias) do input
+  const tempoRecontatoInput = document.getElementById("tempo-recontato").value;
+
+  let novaDataAgendamento = proximaDataAgendamento; // valor padrão
+
+  // Se existir uma data e o tempo para recontato for informado, soma os dias à data
+  if (proximaDataAgendamento && tempoRecontatoInput) {
+    const dias = parseInt(tempoRecontatoInput, 10);
+    let data = new Date(proximaDataAgendamento);
+    data.setDate(data.getDate() + dias);
+    // Formata a nova data para o formato ISO (apenas data)
+    novaDataAgendamento = data.toISOString()
+    console.log("AQUIIII" , novaDataAgendamento);
+    
+  }
+
+  // Obtém demais informações do cliente
   const id_cliente = document.getElementById("id_cliente").textContent;
   const statusCliente = document.getElementById("status-cliente").value;
-  const tempoRecontato = document.getElementById("tempo-recontato").value;
-  
-  // Exibir os valores para conferir se estão corretos
-  console.log("ID do cliente:", id_cliente);
-  console.log("Status do cliente:", statusCliente);
-  console.log("Tempo para recontato:", tempoRecontato);
-  
-  // Cria o objeto payload com o status do cliente
+
+  // Cria o payload com os dados atualizados, incluindo a nova data de agendamento
   let payload = {
-    status_cliente: statusCliente
+    status_cliente: statusCliente,
+    proxima_data_agendamento: novaDataAgendamento // acredito que o erro possa sera aqui pois os farmatos das datas nao coicidem
   };
 
-  // Se o usuário tiver selecionado um tempo, adiciona no payload.
-  // Caso contrário, podemos enviar null (se o backend esperar isso) ou omitir o campo
-  if (tempoRecontato) {
-    payload.tempo_recontato = tempoRecontato;
-  } else {
-    payload.tempo_recontato = null; // ajuste conforme o que o seu backend espera
-  }
-  
+  // Inclui o tempo de recontato, se informado (ou null, se não informado)
+  payload.tempo_recontato = tempoRecontatoInput ? tempoRecontatoInput : null;
+
   console.log("Payload que será enviado:", payload);
-  
+
+  // Envia a atualização para o backend
   fetch(`http://localhost:3000/clientes/${id_cliente}`, {
     method: "PUT",
     headers: {
@@ -225,7 +236,6 @@ function salvarInformacoesCliente() {
   })
     .then(response => {
       if (!response.ok) {
-        // Tenta ler a resposta para ver mais detalhes do erro
         return response.text().then(text => {
           console.error("Resposta do servidor:", text);
           throw new Error("Erro ao salvar informações do cliente.");
@@ -242,6 +252,7 @@ function salvarInformacoesCliente() {
       showToast("Erro ao salvar informações do cliente.", "error");
     });
 }
+
 
 
 // Função para salvar tudo junto
