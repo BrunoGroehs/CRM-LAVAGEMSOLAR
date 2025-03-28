@@ -400,3 +400,7 @@ input[type="date"] {
 .toast.success {
   background-color: #2ecc71;
 }
+/* Classe para alertar que o próximo contato está próximo (20 dias ou menos) */
+.alerta-proximo-contato {
+  background-color: #ffd95d; /* Tom de vermelho claro */
+}

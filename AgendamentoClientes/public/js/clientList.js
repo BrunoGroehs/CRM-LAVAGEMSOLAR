@@ -1,6 +1,3 @@
-/* 
-  //clientList.js (antigo)
-*/
 document.addEventListener("DOMContentLoaded", async () => {
     const listaClientes = document.getElementById("listaClientes");
     const inputPesquisa = document.getElementById("pesquisa");
@@ -33,14 +30,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         tbody.innerHTML = "";
 
         clientesFiltrados.forEach(cliente => {
+            // Formata as datas
+            const dataProxAgendamento = new Date(cliente.proxima_data_agendamento);
+            const dataAgendada = new Date(cliente.data_marcada);
+
             // Identifica o status para buscar o ícone
             const statusServico = cliente.status_servico && cliente.status_servico.descricao
                 ? cliente.status_servico.descricao.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 : "";
             const statusId = cliente.status_servico_id ? String(cliente.status_servico_id) : "";
-
-            // Verifica se existe ícone por statusId ou statusServico
-            const iconeStatus = (iconesStatus[statusServico] || iconesStatus[statusId])
+            const iconeStatusHTML = (iconesStatus[statusServico] || iconesStatus[statusId])
                 ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
                 : "Sem status";
 
@@ -51,6 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <img src="./icons/wpp.png" alt="WhatsApp" width="50">
                 </a>`;
 
+            // Cria a linha da tabela
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${whatsappIcon}</td>
@@ -60,10 +60,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.quantidade_placas}</td>
                 <td>${cliente.valor_servico}</td>
                 <td>${cliente.valor_marcado}</td>
-                <td>${new Date(cliente.proxima_data_agendamento).toLocaleDateString("pt-BR")}</td>
-                <td>${new Date(cliente.data_marcada).toLocaleDateString("pt-BR")}</td>
-                <td>${iconeStatus}</td>
+                <td>${dataProxAgendamento.toLocaleDateString("pt-BR")}</td>
+                <td>${dataAgendada.toLocaleDateString("pt-BR")}</td>
+                <td>${iconeStatusHTML}</td>
             `;
+
+            // Adiciona a classe de alerta se o próximo agendamento ocorrer em 20 dias ou menos
+            const hoje = new Date();
+            const diffTime = dataProxAgendamento - hoje;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+            if (diffDays <= 20 && diffDays >= 0) {
+                tr.classList.add("alerta-proximo-contato");
+            }
 
             // Evento para redirecionar à página de detalhes (exceto quando o ícone é clicado)
             tr.addEventListener("click", (event) => {
@@ -80,7 +88,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const url = `clientData.html?nome=${encodeURIComponent(cliente.nome)}&id_cliente=${encodeURIComponent(cliente.id_cliente)}&telefone=${encodeURIComponent(cliente.telefone)}&valor_servico=${encodeURIComponent(cliente.valor_servico)}&status_servico_id=${encodeURIComponent(cliente.status_servico_id)}&proxima_data_agendamento=${encodeURIComponent(cliente.proxima_data_agendamento)}`;
         window.location.href = url;
     }
-
 
     async function pesquisarClientes() {
         const termo = inputPesquisa.value.toLowerCase();
@@ -110,7 +117,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 break;
             case "limpeza":
                 // Filtra registros que possuem data_marcada (indicando que a limpeza foi efetuada)
-                clientesFiltrados = clientesFiltrados.filter(cliente => cliente.data_marcada);
+                clientesFiltrados = clientesFiltrados.filter(cliente => {
+                    const dataMarcada = new Date(cliente.data_marcada);
+                    return !isNaN(dataMarcada); // Filtra apenas datas válidas
+                });
+
                 // Ordena pela data_marcada
                 if (toggleOrders.limpeza === 'asc') {
                     clientesFiltrados.sort((a, b) => new Date(a.data_marcada) - new Date(b.data_marcada));
@@ -120,24 +131,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                     toggleOrders.limpeza = 'asc';
                 }
                 break;
+
             case "recontato":
-                /* Ordena considerando:
-                   - Se a limpeza foi efetuada (data_marcada existe), utiliza essa data;
-                   - Caso contrário, utiliza a proxima_data_agendamento.
-                */
+                // Filtra registros que possuem proxima_data_agendamento válida
+                clientesFiltrados = clientesFiltrados.filter(cliente => {
+                    const dataRecontato = new Date(cliente.proxima_data_agendamento);
+                    return !isNaN(dataRecontato); // Filtra apenas datas válidas
+                });
+
+                // Ordena pela proxima_data_agendamento
                 if (toggleOrders.recontato === 'asc') {
-                    clientesFiltrados.sort((a, b) => {
-                        let dataA = a.data_marcada ? new Date(a.data_marcada) : new Date(a.proxima_data_agendamento);
-                        let dataB = b.data_marcada ? new Date(b.data_marcada) : new Date(b.proxima_data_agendamento);
-                        return dataA - dataB;
-                    });
+                    clientesFiltrados.sort((a, b) => new Date(a.proxima_data_agendamento) - new Date(b.proxima_data_agendamento));
                     toggleOrders.recontato = 'desc';
                 } else {
-                    clientesFiltrados.sort((a, b) => {
-                        let dataA = a.data_marcada ? new Date(a.data_marcada) : new Date(a.proxima_data_agendamento);
-                        let dataB = b.data_marcada ? new Date(b.data_marcada) : new Date(b.proxima_data_agendamento);
-                        return dataB - dataA;
-                    });
+                    clientesFiltrados.sort((a, b) => new Date(b.proxima_data_agendamento) - new Date(a.proxima_data_agendamento));
                     toggleOrders.recontato = 'asc';
                 }
                 break;

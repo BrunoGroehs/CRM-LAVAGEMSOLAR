@@ -3,7 +3,7 @@
 */
 const express = require('express');
 const router = express.Router();
-const clientController = require('../controllers/clientController');
+const clientController = require('../Controllers/clientController');
 
 // GET /clientes
 router.get('/', clientController.getAllClients);
