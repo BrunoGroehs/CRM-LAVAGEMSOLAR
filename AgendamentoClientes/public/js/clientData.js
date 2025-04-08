@@ -19,6 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
   window.salvarAgendamento = salvarAgendamento;
   window.salvarInformacoesCliente = salvarInformacoesCliente;
   window.salvarTudo = salvarTudo;
+
+  // Atualiza a exibição inicial da próxima data de agendamento
+  const proximaDataAgendamento = new URLSearchParams(window.location.search).get("proxima_data_agendamento");
+  if (proximaDataAgendamento) {
+    const dataFormatada = new Date(proximaDataAgendamento).toLocaleDateString("pt-BR");
+    document.getElementById("nova-data-recontato").textContent = `Atual: ${dataFormatada}`;
+  }
+
+  const tempoRecontatoInput = document.getElementById("tempo-recontato");
+  if (tempoRecontatoInput) {
+    tempoRecontatoInput.addEventListener("change", atualizarDataRecontato);
+  }
 });
 
 // Função para preencher os dados do cliente na interface
@@ -299,4 +311,22 @@ function showToast(message, type) {
   toastContainer.appendChild(toast);
 
   setTimeout(() => toast.remove(), 3000);
+}
+
+// Atualiza a data de recontato com base na seleção do tempo
+function atualizarDataRecontato() {
+  const tempoRecontatoInput = document.getElementById("tempo-recontato").value;
+  const proximaDataAgendamentoText = document.getElementById("nova-data-recontato").textContent.replace("Atualizada: ", "").trim();
+  const proximaDataAgendamento = new Date(proximaDataAgendamentoText.split("/").reverse().join("-"));
+
+  if (!tempoRecontatoInput || isNaN(proximaDataAgendamento.getTime())) {
+    document.getElementById("nova-data-recontato").textContent = "Selecione o tempo para recontato";
+    return;
+  }
+
+  const dias = parseInt(tempoRecontatoInput, 10);
+  const novaData = new Date(proximaDataAgendamento);
+  novaData.setDate(novaData.getDate() + dias);
+
+  document.getElementById("nova-data-recontato").textContent = `Atual: ${novaData.toLocaleDateString("pt-BR")}`;
 }

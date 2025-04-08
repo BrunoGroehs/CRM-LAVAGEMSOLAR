@@ -15,6 +15,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("overdue-count").textContent = overdueClients.length;
         document.getElementById("executed-count").textContent = executedClients.length;
 
+        const iconesStatus = {
+            "1": { src: "./icons/novo.png", title: "Novo" },
+            "2": { src: "./icons/chamado.png", title: "Chamado" },
+            "3": { src: "./icons/emContato.png", title: "Em contato" },
+            "4": { src: "./icons/agendado.png", title: "Agendado" },
+            "5": { src: "./icons/concluido.png", title: "Concluído" },
+        };
+
         // Populate overdue clients modal
         const overdueList = document.querySelector("#overdue-list tbody");
         overdueClients.forEach(cliente => {
@@ -31,6 +39,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.quantidade_placas || "N/A"}</td>
                 <td>${cliente.valor_servico || "N/A"}</td>
                 <td>${new Date(cliente.proxima_data_agendamento).toLocaleDateString("pt-BR")}</td>
+                <td>
+                    <img src="${iconesStatus[cliente.status_servico_id]?.src}" 
+                         alt="${iconesStatus[cliente.status_servico_id]?.title}" 
+                         title="${iconesStatus[cliente.status_servico_id]?.title}" 
+                         width="30">
+                </td>
             `;
             row.addEventListener("click", () => openClientData(cliente));
             overdueList.appendChild(row);
@@ -45,7 +59,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${cliente.nome}</td>
                 <td>${cliente.quantidade_placas || "N/A"}</td>
                 <td>${cliente.valor_servico || "N/A"}</td>
+                <td>
+                    <img src="${iconesStatus[cliente.status_servico_id]?.src}" 
+                         alt="${iconesStatus[cliente.status_servico_id]?.title}" 
+                         title="${iconesStatus[cliente.status_servico_id]?.title}" 
+                         width="30">
+                </td>
             `;
+            row.addEventListener("click", () => openClientData(cliente)); // Added click event for executed services
             executedList.appendChild(row);
         });
 
@@ -75,6 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Add event listeners for modal open/close
         document.getElementById("div1").addEventListener("click", openOverdueModal);
         document.getElementById("div2").addEventListener("click", openExecutedModal);
+        document.getElementById("div4").addEventListener("click", () => {
+            window.location.href = "clientList.html"; // Redirect to clientList.html
+        });
         document.querySelectorAll(".close").forEach(closeButton => {
             closeButton.addEventListener("click", () => {
                 document.querySelectorAll(".modal").forEach(modal => modal.style.display = "none");

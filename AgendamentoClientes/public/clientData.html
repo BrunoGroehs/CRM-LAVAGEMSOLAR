@@ -48,17 +48,17 @@
         <label>Status:</label>
         <select id="status-cliente">
           <option value="" disabled selected>Coloque o status aqui</option>
-          <option value="1">Aguardando Agendamento</option>
-          <option value="2">Cliente Não Quer</option>
-          <option value="3">Reagendado</option>
-          <option value="4">Marcado</option>
-          <option value="5">Limpeza Efetuada</option>
+          <option value="1">Novo</option>
+          <option value="2">Chamado</option>
+          <option value="3">Em contato</option>
+          <option value="4">Agendado</option>
+          <option value="5">Concluído</option>
         </select>
       </div>
       
       <div class="form-group">
         <label>Tempo para Recontato:</label>
-        <select id="tempo-recontato">
+        <select id="tempo-recontato" onchange="atualizarDataRecontato()">
           <option value="">Sem alteração</option>
           <option value="1">1 dia</option>
           <option value="3">3 dias</option>
@@ -66,6 +66,10 @@
           <option value="15">15 dias</option>
           <option value="30">1 mês</option>
         </select>        
+      </div>
+      <div class="form-group">
+        <label>Nova Data de Recontato:</label>
+        <p id="nova-data-recontato">Selecione o tempo para recontato</p>
       </div>
       <!-- Botão para salvar apenas as informações do cliente -->
       <button class="btn_geral" onclick="salvarInformacoesCliente()">Salvar Informações do Cliente</button>

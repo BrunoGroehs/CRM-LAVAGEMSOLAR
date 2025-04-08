@@ -56,7 +56,7 @@ exports.updateClient = async (req, res) => {
     "data_marcada",
     "valor_marcado",
     "descricao_servico",
-    "status_servico_id",
+    "status_servico_id", // Status atualizado
     "endereco",
     "cidade",
     "telefone"

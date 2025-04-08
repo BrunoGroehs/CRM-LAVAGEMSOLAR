@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Ajuste dos caminhos para os ícones de status
     const iconesStatus = {
-        "1": "./icons/aguardandoAgendamento.png",
-        "2": "./icons/clienteNaoQuer.png",
-        "3": "./icons/reagendado.png",
-        "4": "./icons/oportunidade.png",
-        "5": "./icons/limpezaEfetuada.png",
+        "1": { src: "./icons/novo.png", title: "Novo" },
+        "2": { src: "./icons/chamado.png", title: "Chamado" },
+        "3": { src: "./icons/emContato.png", title: "Em contato" },
+        "4": { src: "./icons/agendado.png", title: "Agendado" },
+        "5": { src: "./icons/concluido.png", title: "Concluído" },
     };
 
     async function carregarClientes() {
@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ? cliente.status_servico.descricao.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                 : "";
             const statusId = cliente.status_servico_id ? String(cliente.status_servico_id) : "";
-            const iconeStatusHTML = (iconesStatus[statusServico] || iconesStatus[statusId])
-                ? `<img src="${iconesStatus[statusServico] || iconesStatus[statusId]}" alt="${statusServico}" width="50">`
+            const iconeStatusHTML = (iconesStatus[statusId])
+                ? `<img src="${iconesStatus[statusId].src}" alt="${statusServico}" title="${iconesStatus[statusId].title}" width="50">`
                 : "Sem status";
 
             // Link do WhatsApp
@@ -161,6 +161,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             const filtro = botao.getAttribute("data-filtro");
             filtrarClientes(filtro);
         });
+    });
+
+    inputPesquisa.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            pesquisarClientes();
+        }
     });
 
     carregarClientes();
