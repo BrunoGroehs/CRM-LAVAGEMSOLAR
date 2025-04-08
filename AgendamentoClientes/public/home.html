@@ -9,6 +9,67 @@
     <link rel='stylesheet' type='text/css' media='screen' href='./css/style.css'>
 </head>
 <body>
-    <h1>.</h1>
+    <div class="grid-container">
+        <div class="grid-item clickable" id="div1" onclick="openOverdueModal()">Clientes atrasados: <span id="overdue-count">0</span></div>
+        <div class="grid-item clickable" id="div2" onclick="openExecutedModal()">Serviços executados: <span id="executed-count">0</span></div>
+        <div class="grid-item clickable" id="div3">
+            <div class="horizontal-align">
+                <span>Semana:</span>
+                <span id="weekly-clients">0</span> clientes
+            </div>
+            <div class="horizontal-align">
+                <span>Valor:</span>
+                <span>$<span id="weekly-total">0.00</span></span>
+            </div>
+        </div>
+        <div class="grid-item clickable" id="div4">Total de clientes: <span id="total-clients">0</span></div>
+    </div>
+
+    <!-- Modal for overdue clients -->
+    <div id="overdue-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOverdueModal()">&times;</span>
+            <h2>Clientes Atrasados</h2>
+            <table id="overdue-list" class="styled-table">
+                <thead>
+                    <tr>
+                        <th>WhatsApp</th>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Telefone</th>
+                        <th>Qnt Placas</th>
+                        <th>Valor Serviço</th>
+                        <th>Prox Agendamento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Overdue clients will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal for executed services -->
+    <div id="executed-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeExecutedModal()">&times;</span>
+            <h2>Serviços Executados</h2>
+            <table id="executed-list" class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Efetuada</th>
+                        <th>Cliente</th>
+                        <th>Qnt. placas</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Executed services will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="./js/home.js" type="module"></script>
 </body>
 </html>

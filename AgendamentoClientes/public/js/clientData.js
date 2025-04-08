@@ -216,11 +216,19 @@ function salvarAgendamento() {
 }
 
 function salvarInformacoesCliente() {
-  const params = new URLSearchParams(window.location.search);
-  const proximaDataAgendamento = params.get("proxima_data_agendamento");
-
+  const id_cliente = document.getElementById("id_cliente").textContent.trim();
+  const statusCliente = document.getElementById("status-cliente").value;
   const tempoRecontatoInput = document.getElementById("tempo-recontato").value;
 
+  // Verifica se o ID do cliente está presente
+  if (!id_cliente) {
+    showToast("ID do cliente não encontrado.", "error");
+    return;
+  }
+
+  // Calcula a nova data de recontato, se aplicável
+  const params = new URLSearchParams(window.location.search);
+  const proximaDataAgendamento = params.get("proxima_data_agendamento");
   let novaDataAgendamento = proximaDataAgendamento;
 
   if (proximaDataAgendamento && tempoRecontatoInput) {
@@ -230,39 +238,33 @@ function salvarInformacoesCliente() {
     novaDataAgendamento = data.toISOString();
   }
 
-  const id_cliente = document.getElementById("id_cliente").textContent;
-  const statusCliente = document.getElementById("status-cliente").value;
-
-  let payload = {
-    status_cliente: statusCliente,
-    proxima_data_agendamento: novaDataAgendamento
+  // Prepara o payload para a requisição
+  const payload = {
+    status_servico_id: statusCliente, // Corrigido para usar o campo correto
+    proxima_data_agendamento: novaDataAgendamento || null,
   };
-
-  payload.tempo_recontato = tempoRecontatoInput ? tempoRecontatoInput : null;
-
-  console.log("Payload que será enviado:", payload);
 
   fetch(`http://localhost:3000/clientes/${id_cliente}`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        return response.text().then(text => {
+        return response.text().then((text) => {
           console.error("Resposta do servidor:", text);
           throw new Error("Erro ao salvar informações do cliente.");
         });
       }
       return response.json();
     })
-    .then(data => {
+    .then((data) => {
       console.log("Resposta do servidor:", data);
       showToast("Informações do cliente salvas com sucesso!", "success");
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Erro ao salvar cliente:", error);
       showToast("Erro ao salvar informações do cliente.", "error");
     });
